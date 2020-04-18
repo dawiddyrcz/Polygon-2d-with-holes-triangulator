@@ -22,6 +22,8 @@ SOFTWARE.
  */
 #endregion
 
+//Copied from:  https://github.com/mono/opentk/tree/master/Source/OpenTK/Math and removed few things
+
 using System;
 using System.Runtime.InteropServices;
 namespace PolygonWithHolesTriangulator
