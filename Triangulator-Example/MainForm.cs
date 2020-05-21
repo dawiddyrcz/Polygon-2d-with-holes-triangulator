@@ -139,6 +139,6 @@ namespace Triangulator_Example
                 e.Graphics.DrawLine(pen, FromVector2(vectors[0]), FromVector2(vectors[vectors.Count - 1]));
             }
         }
-        
+
     }
 }

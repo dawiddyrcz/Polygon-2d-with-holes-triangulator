@@ -970,6 +970,17 @@ namespace PolygonWithHolesTriangulator
             return vec;
         }
 
+        public static Vector4 Transform(Vector4 vec, Matrix4 mat)
+        {
+            Vector4 result;
+            result.X = Vector4.Dot(vec, mat.Column0);
+            result.Y = Vector4.Dot(vec, mat.Column1);
+            result.Z = Vector4.Dot(vec, mat.Column2);
+            result.W = Vector4.Dot(vec, mat.Column3);
+            return result;
+        }
+
+
         /// <summary>
         /// Compares two instances for equality.
         /// </summary>
