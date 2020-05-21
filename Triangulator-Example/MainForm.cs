@@ -93,8 +93,7 @@ namespace Triangulator_Example
 
             Triangulator.Triangulate(cutted3, WindingOrder.Clockwise,
                 out Vector2[] result, out int[] indices);
-
-
+            
             resultVertices = new List<Vector2>(result);
             ResultIndices = new List<int>(indices);
         }

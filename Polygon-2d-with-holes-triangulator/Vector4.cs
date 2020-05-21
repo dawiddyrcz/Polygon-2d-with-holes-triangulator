@@ -24,11 +24,10 @@ SOFTWARE.
 
 //Copied from:  https://github.com/mono/opentk/tree/master/Source/OpenTK/Math and removed few things
 
-using PolygonWithHolesTriangulator;
 using System;
 using System.Runtime.InteropServices;
 using System.Xml.Serialization;
-namespace OpenTK
+namespace PolygonWithHolesTriangulator
 {
     /// <summary>Represents a 4D vector using four single-precision floating-point numbers.</summary>
     /// <remarks>

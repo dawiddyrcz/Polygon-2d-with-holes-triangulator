@@ -28,7 +28,7 @@ SOFTWARE.
 using System;
 using System.Runtime.InteropServices;
 
-namespace OpenTK
+namespace PolygonWithHolesTriangulator
 {
     /// <summary>
     /// Represents a 4x4 Matrix
