@@ -57,11 +57,13 @@ namespace PolygonWithHolesTriangulator
 
         public Matrix4 GetTransformationMatrix()
         {
-            return new Matrix4(new Vector4(AxisX.X, AxisY.X, AxisZ.X, 0f),
+            var rotation =  new Matrix4(new Vector4(AxisX.X, AxisY.X, AxisZ.X, 0f),
                                        new Vector4(AxisX.Y, AxisY.Y, AxisZ.Y, 0f),
                                        new Vector4(AxisX.Z, AxisY.Z, AxisZ.Z, 0f),
-                                       new Vector4(-Origin.X, -Origin.Y, -Origin.Z, 1f)
+                                       Vector4.UnitW
                                        );
+            var translation = Matrix4.CreateTranslation(-1*Origin);
+            return translation * rotation;
         }
 
         public override string ToString()

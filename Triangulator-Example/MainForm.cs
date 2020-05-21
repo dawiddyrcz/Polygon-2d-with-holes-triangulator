@@ -140,5 +140,19 @@ namespace Triangulator_Example
             }
         }
 
+        private void button1_Click(object sender, System.EventArgs e)
+        {
+            var origin = new Vector3(5, 5, 0);
+            var x = new Vector3(1, 1, 0);
+            var y = new Vector3(5, 5, 0);
+
+            var cs = new CoordinateSystem(origin, x, y);
+            var matrix = cs.GetTransformationMatrix();
+
+            var point = new Vector4(5, 5, 0, 1);
+            var point2 = Vector4.Transform(point, matrix);
+
+            int a = 0;
+        }
     }
 }
