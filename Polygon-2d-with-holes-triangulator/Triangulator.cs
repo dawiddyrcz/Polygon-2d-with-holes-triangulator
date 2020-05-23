@@ -75,14 +75,17 @@ namespace PolygonWithHolesTriangulator
 
 			List<Triangle> triangles = new List<Triangle>();
 
-			//make sure we have our vertices wound properly
-			if (DetermineWindingOrder(inputVertices) == WindingOrder.Clockwise)
-				outputVertices = ReverseWindingOrder(inputVertices);
-			else
-				outputVertices = (Vector2[])inputVertices.Clone();
+            //TODO this make ERROR 
+            //make sure we have our vertices wound properly
+            //if (DetermineWindingOrder(inputVertices) == WindingOrder.Clockwise)
+            //    outputVertices = ReverseWindingOrder(inputVertices);
+            //else
+            //    outputVertices = (Vector2[])inputVertices.Clone();
 
-			//clear all of the lists
-			polygonVertices.Clear();
+             outputVertices = (Vector2[])inputVertices.Clone();
+
+            //clear all of the lists
+            polygonVertices.Clear();
 			earVertices.Clear();
 			convexVertices.Clear();
 			reflexVertices.Clear();
@@ -145,12 +148,12 @@ namespace PolygonWithHolesTriangulator
 		{
 			Log("\nCutting hole into shape...");
 
-			//make sure the shape vertices are wound counter clockwise and the hole vertices clockwise
-			shapeVerts = EnsureWindingOrder(shapeVerts, WindingOrder.CounterClockwise);
-			holeVerts = EnsureWindingOrder(holeVerts, WindingOrder.Clockwise);
+            //make sure the shape vertices are wound counter clockwise and the hole vertices clockwise
+            shapeVerts = EnsureWindingOrder(shapeVerts, WindingOrder.CounterClockwise);
+            holeVerts = EnsureWindingOrder(holeVerts, WindingOrder.Clockwise);
 
-			//clear all of the lists
-			polygonVertices.Clear();
+            //clear all of the lists
+            polygonVertices.Clear();
 			earVertices.Clear();
 			convexVertices.Clear();
 			reflexVertices.Clear();
@@ -377,7 +380,7 @@ namespace PolygonWithHolesTriangulator
 				p1 = p2;
 			}
 
-			return (clockWiseCount > counterClockWiseCount)
+			return (clockWiseCount > counterClockWiseCount) //TODO error is here!!
 				? WindingOrder.Clockwise
 				: WindingOrder.CounterClockwise;
 		}

@@ -1084,9 +1084,9 @@ namespace PolygonWithHolesTriangulator
         public bool Equals(Vector3 other)
         {
             return
-                X == other.X &&
-                Y == other.Y &&
-                Z == other.Z;
+                Math.Abs(X - other.X) < float.Epsilon &&
+                Math.Abs(Y - other.Y) < float.Epsilon &&
+                Math.Abs(Z - other.Z) < float.Epsilon;
         }
 
         #endregion

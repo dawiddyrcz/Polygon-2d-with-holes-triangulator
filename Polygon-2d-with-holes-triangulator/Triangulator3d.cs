@@ -26,30 +26,41 @@ namespace PolygonWithHolesTriangulator
 {
     public static class Triangulator3d
     {
+        //Not works!!!
         public static void Triangulate(List<Vector3> shapeVertexes,
             List<List<Vector3>> collectionOfholesVetexes,
             out Vector3[] outputVertexes, out int[] outputIndices
             )
         {
             var coordinateSystem = CoordinateSystem.From3Points(shapeVertexes[0], shapeVertexes[1], shapeVertexes[2]);
-            var matrixTo2d = coordinateSystem.GetTransformationMatrix();
+
+            //Not works when change coordinate system. 2d algorythm have error probably with winding orders
+
+            //var cs = new CoordinateSystem(new Vector3(600, 0, 0), new Vector3(0, 1, 0), new Vector3(-1, 0, 0));
+           // var matrixTo2d = cs.GetTransformationMatrix();
+           var matrixTo2d =  coordinateSystem.GetTransformationMatrix();
+          //  var matrixTo2d =   Matrix4.Identity;
+
             var matrixTo3d = Matrix4.Invert(matrixTo2d);
 
             var transformedShapeVertexes = ConvertTo2d(shapeVertexes, ref matrixTo2d);
-            transformedShapeVertexes = Triangulator.EnsureWindingOrder(transformedShapeVertexes, WindingOrder.Clockwise);
+            transformedShapeVertexes = Triangulator.EnsureWindingOrder(transformedShapeVertexes, WindingOrder.CounterClockwise);
 
             if (collectionOfholesVetexes.Count != 0)
             {
                 foreach (var holeVertexes in collectionOfholesVetexes)
                 {
                     var transformedHoleVertexes = ConvertTo2d(holeVertexes, ref matrixTo2d);
+                    transformedHoleVertexes = Triangulator.EnsureWindingOrder(transformedHoleVertexes, WindingOrder.Clockwise);
                     transformedShapeVertexes = Triangulator.CutHoleInShape(transformedShapeVertexes, transformedHoleVertexes);
                 }
             }
 
-            Triangulator.Triangulate(transformedShapeVertexes, WindingOrder.Clockwise,
-                    out Vector2[] outputVertexesArray, out outputIndices);
             
+            Triangulator.Triangulate(transformedShapeVertexes, WindingOrder.Clockwise,
+                    out Vector2[] outputVertexesArray, out int[] indices);
+
+            outputIndices = indices;
             outputVertexes = ConvertTo3d(outputVertexesArray, ref matrixTo3d);
         }
 
@@ -59,7 +70,7 @@ namespace PolygonWithHolesTriangulator
 
             foreach (var point in inputList)
             {
-                var transFormedPoint = Vector4.Transform(new Vector4(point, 1.0f), matrix);
+                var transFormedPoint = Vector4.Transform(new Vector4(point.X, point.Y, point.Z, 1.0f), matrix);
                 output.Add(new Vector2(transFormedPoint.X, transFormedPoint.Y));
             }
 
@@ -78,5 +89,6 @@ namespace PolygonWithHolesTriangulator
 
             return output.ToArray();
         }
+        
     }
 }

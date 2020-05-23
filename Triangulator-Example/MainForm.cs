@@ -80,22 +80,45 @@ namespace Triangulator_Example
         };
 
 
-        List<Vector2> resultVertices = new List<Vector2>();
-        List<int> ResultIndices = new List<int>();
+        private List<Vector2> resultVertices = new List<Vector2>();
+        private List<int> ResultIndices = new List<int>();
 
         public MainForm()
         {
             InitializeComponent();
 
-            var cutted = Triangulator.CutHoleInShape(inputVectors.ToArray(), holeVectors.ToArray());
-            var cutted2 = Triangulator.CutHoleInShape(cutted, holeVectors2.ToArray());
-            var cutted3 = Triangulator.CutHoleInShape(cutted2, holeVectors3.ToArray());
+            var twoDimension = false;
 
-            Triangulator.Triangulate(cutted3, WindingOrder.Clockwise,
-                out Vector2[] result, out int[] indices);
-            
-            resultVertices = new List<Vector2>(result);
-            ResultIndices = new List<int>(indices);
+            if (twoDimension)
+            {
+                var inputVertexes = inputVectors.ToArray();
+                inputVertexes = Triangulator.CutHoleInShape(inputVertexes, holeVectors.ToArray());
+                inputVertexes = Triangulator.CutHoleInShape(inputVertexes, holeVectors2.ToArray());
+                inputVertexes = Triangulator.CutHoleInShape(inputVertexes, holeVectors3.ToArray());
+
+                Triangulator.Triangulate(inputVertexes, WindingOrder.Clockwise,
+                    out Vector2[] result, out int[] indices);
+                
+                resultVertices = new List<Vector2>(result);
+                ResultIndices = new List<int>(indices);
+            }
+            else
+            {
+                var inputVectors_3d = ConvertTo3d(inputVectors.ToArray());
+
+                var collectionOfHoleVectors = new List<List<Vector3>>()
+                {
+                    ConvertTo3d(holeVectors.ToArray()),
+                    ConvertTo3d(holeVectors2.ToArray()),
+                    ConvertTo3d(holeVectors3.ToArray())
+                };
+
+                Triangulator3d.Triangulate(inputVectors_3d, collectionOfHoleVectors,
+                    out Vector3[] vertexes, out int[] indices);
+
+                resultVertices = ConvertTo2d(vertexes);
+                ResultIndices = new List<int>(indices);
+            }
         }
 
         private Point FromVector2(Vector2 vector, int offsetX = 0)
@@ -153,6 +176,30 @@ namespace Triangulator_Example
             var point2 = Vector4.Transform(point, matrix);
 
             int a = 0;
+        }
+
+        private static List<Vector3> ConvertTo3d(Vector2[] input)
+        {
+            var output = new List<Vector3>(input.Length);
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                output.Add(new Vector3(input[i].X, input[i].Y, 0.0f));
+            }
+
+            return output;
+        }
+
+        private static List<Vector2> ConvertTo2d(Vector3[] input)
+        {
+            var output = new List<Vector2>(input.Length);
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                output.Add(new Vector2(input[i].X, input[i].Y));
+            }
+
+            return output;
         }
     }
 }

@@ -1077,8 +1077,8 @@ namespace PolygonWithHolesTriangulator
         public bool Equals(Vector2 other)
         {
             return
-                X == other.X &&
-                Y == other.Y;
+                Math.Abs(X - other.X) < float.Epsilon &&
+                Math.Abs(Y - other.Y) < float.Epsilon;
         }
 
         #endregion
