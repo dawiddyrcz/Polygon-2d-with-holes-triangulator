@@ -149,8 +149,8 @@ namespace PolygonWithHolesTriangulator
 			Log("\nCutting hole into shape...");
 
             //make sure the shape vertices are wound counter clockwise and the hole vertices clockwise
-            shapeVerts = EnsureWindingOrder(shapeVerts, WindingOrder.CounterClockwise);
-            holeVerts = EnsureWindingOrder(holeVerts, WindingOrder.Clockwise);
+            //shapeVerts = EnsureWindingOrder(shapeVerts, WindingOrder.CounterClockwise);
+            //holeVerts = EnsureWindingOrder(holeVerts, WindingOrder.Clockwise);
 
             //clear all of the lists
             polygonVertices.Clear();

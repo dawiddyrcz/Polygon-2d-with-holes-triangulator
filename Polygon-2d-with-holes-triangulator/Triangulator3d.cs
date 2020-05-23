@@ -32,26 +32,28 @@ namespace PolygonWithHolesTriangulator
             out Vector3[] outputVertexes, out int[] outputIndices
             )
         {
-            var coordinateSystem = CoordinateSystem.From3Points(shapeVertexes[0], shapeVertexes[1], shapeVertexes[2]);
 
             //Not works when change coordinate system. 2d algorythm have error probably with winding orders
 
-            //var cs = new CoordinateSystem(new Vector3(600, 0, 0), new Vector3(0, 1, 0), new Vector3(-1, 0, 0));
-           // var matrixTo2d = cs.GetTransformationMatrix();
-           var matrixTo2d =  coordinateSystem.GetTransformationMatrix();
-          //  var matrixTo2d =   Matrix4.Identity;
+            var coordinateSystem = CoordinateSystem.From3Points(shapeVertexes[0], shapeVertexes[1], shapeVertexes[2]);
+            var matrixTo2d = coordinateSystem.GetTransformationMatrix();
+
+          //  var cs = new CoordinateSystem(new Vector3(0, 0, 0), new Vector3(0, 1, 0), new Vector3(-1, 0, 0));
+           //   var matrixTo2d = cs.GetTransformationMatrix();
+
+            // var matrixTo2d =   Matrix4.Identity;
 
             var matrixTo3d = Matrix4.Invert(matrixTo2d);
 
             var transformedShapeVertexes = ConvertTo2d(shapeVertexes, ref matrixTo2d);
-            transformedShapeVertexes = Triangulator.EnsureWindingOrder(transformedShapeVertexes, WindingOrder.CounterClockwise);
+            //transformedShapeVertexes = Triangulator.EnsureWindingOrder(transformedShapeVertexes, WindingOrder.CounterClockwise);
 
             if (collectionOfholesVetexes.Count != 0)
             {
                 foreach (var holeVertexes in collectionOfholesVetexes)
                 {
                     var transformedHoleVertexes = ConvertTo2d(holeVertexes, ref matrixTo2d);
-                    transformedHoleVertexes = Triangulator.EnsureWindingOrder(transformedHoleVertexes, WindingOrder.Clockwise);
+                    //transformedHoleVertexes = Triangulator.EnsureWindingOrder(transformedHoleVertexes, WindingOrder.Clockwise);
                     transformedShapeVertexes = Triangulator.CutHoleInShape(transformedShapeVertexes, transformedHoleVertexes);
                 }
             }

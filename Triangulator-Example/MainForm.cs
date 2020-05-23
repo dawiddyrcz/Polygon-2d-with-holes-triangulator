@@ -75,6 +75,7 @@ namespace Triangulator_Example
             new Vector2(180,90),
             new Vector2(250,90),
             new Vector2(250,105),
+            new Vector2(200,115),
             new Vector2(180,105),
 
         };
@@ -105,6 +106,9 @@ namespace Triangulator_Example
             else
             {
                 var inputVectors_3d = ConvertTo3d(inputVectors.ToArray());
+
+                holeVectors2.Reverse();
+                holeVectors3.Reverse();
 
                 var collectionOfHoleVectors = new List<List<Vector3>>()
                 {
